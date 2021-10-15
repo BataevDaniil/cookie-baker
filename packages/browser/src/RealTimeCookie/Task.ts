@@ -1,6 +1,6 @@
-import { shallowEqual } from "./shallowEqual"
+import { CookieController, CookieObjectModel } from "@cookie-baker/core"
 
-import { CookieController, CookieObjectModel } from "./Cookie"
+import { isShallowEqual } from "../../../shared"
 
 type Executor<T extends CookieObjectModel> = (cookie: Partial<T>) => void
 export interface Task<T extends CookieObjectModel> {
@@ -24,7 +24,7 @@ export class TaskCookieRequestAnimationFrame<T extends CookieObjectModel>
 
   private _task() {
     const cookie = this.#cookie.get()
-    if (!shallowEqual(cookie, this.#prevCookie)) {
+    if (!isShallowEqual(cookie, this.#prevCookie)) {
       this.#task(cookie)
       this.setCash(cookie)
     }

@@ -1,17 +1,16 @@
 import React from "react"
+import { CookieController, CookieObjectModel } from "@cookie-baker/core"
+import { RealTimeCookie } from "@cookie-baker/browser"
 
-import { shallowEqual } from "./shallowEqual"
-
-import { CookieController, CookieObjectModel } from "./Cookie"
-import { IRealTimeCookie } from "./RealTimeCookie"
+import { isShallowEqual } from "../../shared"
 
 export interface useCookie<T extends CookieObjectModel> {
   (): Partial<T>
   <C>(cookie: (state: Partial<T>) => C): C
 }
 
-export const factoryUseCookie = <T extends CookieObjectModel>(
-  RealTimeCookie: IRealTimeCookie<T>,
+export const createUseCookie = <T extends CookieObjectModel>(
+  RealTimeCookie: RealTimeCookie<T>,
   Cookie: CookieController<T>,
 ): useCookie<T> =>
   function useCookie<C>(select?: (cookie: Partial<T>) => C) {
@@ -26,7 +25,7 @@ export const factoryUseCookie = <T extends CookieObjectModel>(
     React.useEffect(() => {
       const handler = (state: Partial<T>) => {
         const newValue = selectMemo.current(state)
-        if (!shallowEqual(prevValue.current, newValue)) {
+        if (!isShallowEqual(prevValue.current, newValue)) {
           setValue(newValue)
           prevValue.current = newValue
         }
