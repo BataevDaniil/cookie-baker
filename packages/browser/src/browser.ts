@@ -1,14 +1,14 @@
 import {
-  Cookie,
+  Cookie as CookieConverter,
   CookieAttributes,
   CookieController,
   CookieObjectModel,
 } from "@cookie-baker/core"
 
-export class CookieClient<T extends CookieObjectModel>
+export class Cookie<T extends CookieObjectModel>
   implements CookieController<T>
 {
-  #cookie = new Cookie<T>()
+  #cookie = new CookieConverter<T>()
   get(): Partial<T> {
     return this.#cookie.parse(document.cookie)
   }
