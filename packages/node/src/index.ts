@@ -1,1 +1,1 @@
-export { CookieServer } from "./node"
+export { Cookie } from "./node"

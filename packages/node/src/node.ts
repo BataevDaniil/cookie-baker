@@ -1,17 +1,17 @@
 import { IncomingMessage, ServerResponse } from "http"
 import {
-  Cookie,
+  Cookie as CookieConverter,
   CookieAttributes,
   CookieController,
   CookieObjectModel,
 } from "@cookie-baker/core"
 
-export class CookieServer<T extends CookieObjectModel>
+export class Cookie<T extends CookieObjectModel>
   implements CookieController<T>
 {
   readonly #res: ServerResponse
   readonly #req: IncomingMessage
-  readonly #cookie = new Cookie<T>()
+  readonly #cookie = new CookieConverter<T>()
 
   constructor({ req, res }: { req: IncomingMessage; res: ServerResponse }) {
     this.#req = req
