@@ -47,7 +47,7 @@ class RealTimeCookieClass<T extends CookieObjectModel>
 
 export const createRealTimeCookie = <T extends CookieObjectModel>(
   Cookie: CookieController<T>,
-) =>
+): RealTimeCookie<Partial<T>> =>
   isBrowser()
     ? new RealTimeCookieClass(new TaskCookieRequestAnimationFrame(Cookie))
     : new RealTimeCookiePlug()

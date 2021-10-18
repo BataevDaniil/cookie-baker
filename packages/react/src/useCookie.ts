@@ -1,6 +1,9 @@
 import React from "react"
-import { CookieController, CookieObjectModel } from "@cookie-baker/core"
-import { RealTimeCookie } from "@cookie-baker/browser"
+import {
+  RealTimeCookie,
+  CookieController,
+  CookieObjectModel,
+} from "@cookie-baker/core"
 
 import { isShallowEqual } from "../../shared"
 
@@ -10,15 +13,15 @@ export interface useCookie<T extends CookieObjectModel> {
 }
 
 export const createUseCookie = <T extends CookieObjectModel>(
-  RealTimeCookie: RealTimeCookie<T>,
-  Cookie: CookieController<T>,
+  cookie: CookieController<T>,
+  realTimeCookie: RealTimeCookie<T>,
 ): useCookie<T> =>
   function useCookie<C>(select?: (cookie: Partial<T>) => C) {
     const newSelect = select ?? ((cookie: Partial<T>) => cookie)
     const selectMemo = React.useRef(newSelect)
     selectMemo.current = newSelect
     const [value, setValue] = React.useState(() =>
-      selectMemo.current(Cookie.get()),
+      selectMemo.current(cookie.get()),
     )
 
     const prevValue = React.useRef(value)
@@ -30,8 +33,10 @@ export const createUseCookie = <T extends CookieObjectModel>(
           prevValue.current = newValue
         }
       }
-      RealTimeCookie.addListener(handler)
-      return () => RealTimeCookie.removeListener(handler)
+      // @ts-ignore
+      realTimeCookie.addListener(handler)
+      // @ts-ignore
+      return () => realTimeCookie.removeListener(handler)
     }, [])
 
     return value
