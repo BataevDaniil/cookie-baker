@@ -17,37 +17,13 @@ export interface CookieController<T extends CookieObjectModel> {
 }
 
 export class Cookie<T extends CookieObjectModel> {
-  static converter = {
-    read: function (value: string): string {
-      return value.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent)
-    },
-    write: function (value: string): string {
-      return encodeURIComponent(value).replace(
-        /%(2[346BF]|3[AC-F]|40|5[BDE]|60|7[BCD])/g,
-        decodeURIComponent,
-      )
-    },
-  }
-  static stringifyAttrs = (options: CookieAttributes): string => {
-    let attrs = ""
-    if (options.maxAge) attrs += `; max-age=${options.maxAge}`
-    if (options.path) attrs += `; path=${options.path}`
-    if (options.expires) attrs += `; expires=${options.expires.toUTCString()}`
-    if (options.domain) attrs += `; domain=${options.domain}`
-    if (options.sameSite) attrs += `; samesite=${options.sameSite}`
-    if (options.secure) attrs += "; secure"
-    if (options.httpOnly) attrs += "; httponly"
-    return attrs
-  }
   // TODO: add stringify all cookie
   stringify(name: keyof T, value: string, options?: CookieAttributes): string {
     const key = encodeURIComponent(name as string)
       .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
       .replace(/[()]/g, escape)
 
-    return `${key}=${Cookie.converter.write(value)}${Cookie.stringifyAttrs(
-      options ?? {},
-    )}`
+    return `${key}=${converter.write(value)}${stringifyAttrs(options ?? {})}`
   }
   // TODO: add parse with attribute in new method
   parse(cookie: string): Partial<T> {
@@ -59,8 +35,30 @@ export class Cookie<T extends CookieObjectModel> {
       .map((x) => x.split("="))
       .reduce((acc, [key, ...value]) => {
         // @ts-ignore
-        acc[Cookie.converter.read(key)] = Cookie.converter.read(value.join("="))
+        acc[converter.read(key)] = converter.read(value.join("="))
         return acc
       }, {})
   }
+}
+
+const stringifyAttrs = (options: CookieAttributes): string => {
+  let attrs = ""
+  if (options.maxAge) attrs += `; max-age=${options.maxAge}`
+  if (options.path) attrs += `; path=${options.path}`
+  if (options.expires) attrs += `; expires=${options.expires.toUTCString()}`
+  if (options.domain) attrs += `; domain=${options.domain}`
+  if (options.sameSite) attrs += `; samesite=${options.sameSite}`
+  if (options.secure) attrs += "; secure"
+  if (options.httpOnly) attrs += "; httponly"
+  return attrs
+}
+
+const converter = {
+  read: (value: string): string =>
+    value.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent),
+  write: (value: string): string =>
+    encodeURIComponent(value).replace(
+      /%(2[346BF]|3[AC-F]|40|5[BDE]|60|7[BCD])/g,
+      decodeURIComponent,
+    ),
 }
