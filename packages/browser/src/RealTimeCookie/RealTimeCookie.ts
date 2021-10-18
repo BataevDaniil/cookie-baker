@@ -1,11 +1,13 @@
-import { CookieObjectModel, CookieController } from "@cookie-baker/core"
+import {
+  CookieObjectModel,
+  CookieController,
+  RealTimeCookie,
+} from "@cookie-baker/core"
 
 import { isBrowser } from "../isBrowser"
+import { Emitter, Subscriber } from "../../../shared"
 
-import { Emitter, Listener, Subscriber } from "./emitter"
 import { Task, TaskCookieRequestAnimationFrame } from "./Task"
-
-export interface RealTimeCookie<T> extends Listener<T> {}
 
 class RealTimeCookiePlug implements RealTimeCookie<never> {
   addListener() {
