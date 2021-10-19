@@ -1,6 +1,6 @@
 {
   "name": "@cookie-baker/node",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "private": false,
   "repository": "https://github.com/BataevDaniil/cookie-baker.git",
   "author": "Daniil Bataev Iurevich <daniil.bataev.iurevich@gmail.com>",

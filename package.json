@@ -1,7 +1,7 @@
 {
   "name": "cookie-baker",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/BataevDaniil/cookie-baker.git",
   "author": "Daniil Bataev Iurevich <daniil.bataev.iurevich@gmail.com>",
   "license": "MIT",
