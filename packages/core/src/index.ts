@@ -1,5 +1,10 @@
-export { CookieClient, CookieServer, Cookie } from "./Cookie"
-export type { CookieController, CookieAttributes } from "./Cookie"
-export { factoryCookie } from "./factory"
-export type { useCookie } from "./useCookie"
-export type { IRealTimeCookie } from "./RealTimeCookie"
+import { Listener } from "../../shared"
+
+export { Cookie } from "./Cookie"
+export type {
+  CookieController,
+  CookieAttributes,
+  CookieObjectModel,
+} from "./Cookie"
+
+export interface RealTimeCookie<T> extends Listener<T> {}

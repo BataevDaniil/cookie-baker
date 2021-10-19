@@ -1,38 +1,42 @@
 import React from "react"
+import {
+  RealTimeCookie,
+  CookieController,
+  CookieObjectModel,
+} from "@cookie-baker/core"
 
-import { shallowEqual } from "./shallowEqual"
-
-import { CookieController, CookieObjectModel } from "./Cookie"
-import { IRealTimeCookie } from "./RealTimeCookie"
+import { isShallowEqual } from "../../shared"
 
 export interface useCookie<T extends CookieObjectModel> {
   (): Partial<T>
   <C>(cookie: (state: Partial<T>) => C): C
 }
 
-export const factoryUseCookie = <T extends CookieObjectModel>(
-  RealTimeCookie: IRealTimeCookie<T>,
-  Cookie: CookieController<T>,
+export const createUseCookie = <T extends CookieObjectModel>(
+  cookie: CookieController<T>,
+  realTimeCookie: RealTimeCookie<T>,
 ): useCookie<T> =>
   function useCookie<C>(select?: (cookie: Partial<T>) => C) {
     const newSelect = select ?? ((cookie: Partial<T>) => cookie)
     const selectMemo = React.useRef(newSelect)
     selectMemo.current = newSelect
     const [value, setValue] = React.useState(() =>
-      selectMemo.current(Cookie.get()),
+      selectMemo.current(cookie.get()),
     )
 
     const prevValue = React.useRef(value)
     React.useEffect(() => {
       const handler = (state: Partial<T>) => {
         const newValue = selectMemo.current(state)
-        if (!shallowEqual(prevValue.current, newValue)) {
+        if (!isShallowEqual(prevValue.current, newValue)) {
           setValue(newValue)
           prevValue.current = newValue
         }
       }
-      RealTimeCookie.addListener(handler)
-      return () => RealTimeCookie.removeListener(handler)
+      // @ts-ignore
+      realTimeCookie.addListener(handler)
+      // @ts-ignore
+      return () => realTimeCookie.removeListener(handler)
     }, [])
 
     return value

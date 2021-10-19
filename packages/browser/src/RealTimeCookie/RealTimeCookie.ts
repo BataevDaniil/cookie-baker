@@ -1,11 +1,15 @@
-import { Emitter, Listener, Subscriber } from "./emitter"
+import {
+  CookieObjectModel,
+  CookieController,
+  RealTimeCookie,
+} from "@cookie-baker/core"
 
-import { CookieObjectModel } from "./Cookie"
-import { Task } from "./Task"
+import { isBrowser } from "../isBrowser"
+import { Emitter, Subscriber } from "../../../shared"
 
-export interface IRealTimeCookie<T> extends Listener<T> {}
+import { Task, TaskCookieRequestAnimationFrame } from "./Task"
 
-export class RealTimeCookiePlug implements IRealTimeCookie<never> {
+class RealTimeCookiePlug implements RealTimeCookie<never> {
   addListener() {
     if (process.env.NODE_ENV !== "test") {
       console.error("RealTimeCookie should not use in server render")
@@ -18,8 +22,8 @@ export class RealTimeCookiePlug implements IRealTimeCookie<never> {
   }
 }
 
-export class RealTimeCookie<T extends CookieObjectModel>
-  implements IRealTimeCookie<Partial<T>>
+class RealTimeCookieClass<T extends CookieObjectModel>
+  implements RealTimeCookie<Partial<T>>
 {
   readonly #emitter = new Emitter<Partial<T>>()
   readonly #task: Task<T>
@@ -40,3 +44,10 @@ export class RealTimeCookie<T extends CookieObjectModel>
     }
   }
 }
+
+export const createRealTimeCookie = <T extends CookieObjectModel>(
+  Cookie: CookieController<T>,
+): RealTimeCookie<Partial<T>> =>
+  isBrowser()
+    ? new RealTimeCookieClass(new TaskCookieRequestAnimationFrame(Cookie))
+    : new RealTimeCookiePlug()

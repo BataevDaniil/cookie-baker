@@ -1,7 +1,7 @@
 {
   "name": "cookie-baker",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/BataevDaniil/cookie-baker.git",
   "author": "Daniil Bataev Iurevich <daniil.bataev.iurevich@gmail.com>",
   "license": "MIT",
@@ -19,8 +19,7 @@
     "standard-version": "^9.3.1"
   },
   "engines": {
-    "node": "^14.17.3",
-    "npm": "^7.0.0"
+    "npm": ">=7.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,css,md,json}": "prettier --write"
