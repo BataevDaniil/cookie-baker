@@ -26,7 +26,7 @@ export class TaskCookieRequestAnimationFrame<T extends CookieObjectModel>
     const cookie = this.#cookie.get()
     if (!isShallowEqual(cookie, this.#prevCookie)) {
       this.#task(cookie)
-      this.setCash(cookie)
+      this.setCache(cookie)
     }
     if (this.#isExecuting) {
       this.execute()
@@ -35,7 +35,7 @@ export class TaskCookieRequestAnimationFrame<T extends CookieObjectModel>
   private execute() {
     this.#cancelId = requestAnimationFrame(this._task.bind(this))
   }
-  private setCash(cookie: Partial<T>) {
+  private setCache(cookie: Partial<T>) {
     this.#prevCookie = cookie
   }
   setTask(task: Executor<T>) {
@@ -49,7 +49,7 @@ export class TaskCookieRequestAnimationFrame<T extends CookieObjectModel>
     if (!this.#isExecuting) {
       this.execute()
       this.#isExecuting = true
-      this.setCash(this.#cookie.get())
+      this.setCache(this.#cookie.get())
     }
   }
 }
