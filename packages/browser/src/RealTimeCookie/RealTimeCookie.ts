@@ -5,7 +5,7 @@ import {
 } from "@cookie-baker/core"
 
 import { isBrowser } from "../isBrowser"
-import { Emitter, Subscriber } from "../../../shared"
+import { Emitter, Subscriber } from "../shared"
 
 import { Task, TaskCookieRequestAnimationFrame } from "./Task"
 

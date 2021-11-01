@@ -5,7 +5,7 @@ import {
   CookieObjectModel,
 } from "@cookie-baker/core"
 
-import { isShallowEqual } from "../../shared"
+import { isShallowEqual } from "./shared"
 
 export interface useCookie<T extends CookieObjectModel> {
   (): Partial<T>
@@ -33,9 +33,7 @@ export const createUseCookie = <T extends CookieObjectModel>(
           prevValue.current = newValue
         }
       }
-      // @ts-ignore
       realTimeCookie.addListener(handler)
-      // @ts-ignore
       return () => realTimeCookie.removeListener(handler)
     }, [])
 

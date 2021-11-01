@@ -1,6 +1,6 @@
 import { CookieController, CookieObjectModel } from "@cookie-baker/core"
 
-import { isShallowEqual } from "../../../shared"
+import { isShallowEqual } from "../shared"
 
 type Executor<T extends CookieObjectModel> = (cookie: Partial<T>) => void
 export interface Task<T extends CookieObjectModel> {
