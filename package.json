@@ -9,7 +9,9 @@
     "./packages/*"
   ],
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "npm run clear-build && npm run -w @cookie-baker/core -w @cookie-baker/browser -w @cookie-baker/node -w @cookie-baker/react build",
+    "clear-build": "ls packages | xargs -I{} rm -rf 'packages/{}/build'"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
