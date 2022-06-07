@@ -15,7 +15,7 @@
     "build": "microbundle"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
+    "react": ">=16.8",
     "@cookie-baker/core": "0.0.1"
   },
   "devDependencies": {
