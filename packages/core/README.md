@@ -1,21 +1,20 @@
-# @cookie-baker/react
+# @cookie-baker/core
 
 ## Install
 
 ```
-yarn add @cookie-baker/core @cookie-baker/browser
+yarn add @cookie-baker/core
 ```
 
 or
 
 ```
-npm install @cookie-baker/core @cookie-baker/browser
+npm install @cookie-baker/core
 ```
 
 ## Example
 
 ```tsx
-import React from "react"
 import { Cookie } from "@cookie-baker/core"
 
 type CookieModel = {
