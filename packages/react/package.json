@@ -1,6 +1,6 @@
 {
   "name": "@cookie-baker/react",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "repository": "https://github.com/BataevDaniil/cookie-baker.git",
   "author": "Daniil Bataev Iurevich <daniil.bataev.iurevich@gmail.com>",
@@ -16,7 +16,7 @@
   },
   "peerDependencies": {
     "react": ">=16.8",
-    "@cookie-baker/core": "0.2.0"
+    "@cookie-baker/core": "0.2.1"
   },
   "devDependencies": {
     "react": "^17.0.2",
